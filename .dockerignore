@@ -1,0 +1,121 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.yarn/
+.pnpm-debug.log*
+
+# Package manager files
+package-lock.json
+yarn.lock
+.pnpm-lock.yaml
+shrinkwrap.yaml
+
+# Development environment directories
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Operating system files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Logs
+logs/
+*.log
+log/
+
+# Environments
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+.env.staging
+
+# Cache
+.npm/
+.cache/
+.parcel-cache/
+.nyc_output/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Tests
+test/
+tests/
+__tests__/
+*.test.js
+*.test.ts
+*.spec.js
+*.spec.ts
+coverage/
+.coverage/
+.nyc_output/
+junit.xml
+
+# Documentation and README
+*.md
+docs/
+documentation/
+README*
+CHANGELOG*
+LICENSE*
+
+# Development configuration files
+.eslintrc*
+.prettierrc*
+.stylelintrc*
+jest.config*
+webpack.config*
+rollup.config*
+vite.config*
+tsconfig.json
+.babelrc*
+.editorconfig
+
+# Build directories (if they are not needed in production)
+build/
+dist/
+out/
+.next/
+.nuxt/
+.output/
+
+# Static analysis
+.sonarjs/
+.scannerwork/
+
+# Docker
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+.travis.yml
+.circleci/
+azure-pipelines.yml
+Jenkinsfile
+
+# Others
+*.tgz
+*.tar.gz
