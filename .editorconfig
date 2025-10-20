@@ -1,0 +1,14 @@
+https://editorconfig.org/
+
+root = true
+
+[*]
+end_of_line = lf
+charset = utf-8
+quote_type = single
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[{*.js, *.mjs, *.ts, *.json, *.yml}]
+ident_size = 2
+indent_style = space
