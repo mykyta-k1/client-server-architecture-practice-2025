@@ -2,11 +2,21 @@ FROM node:22
 
 WORKDIR /srv/app
 
-COPY package.json .
-RUN npm install --production
+# Install nodemon globally (system level)
+RUN npm install -g nodemon
 
-COPY . .
+# Copy only package files to leverage Docker cache
+COPY package*.json ./
 
-EXPOSE 3000
+RUN npm install
 
-CMD ["npm", "start"]
+COPY --chown=node:node . .
+
+USER node
+
+EXPOSE 3000 9229
+
+ENV NODE_ENV=development
+
+# Start script from package.json (name: 'dev')
+CMD ["npm", "run", "dev"]

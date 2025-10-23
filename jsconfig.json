@@ -1,17 +1,17 @@
 {
-    // jsconfig.json for a Node.js JavaScript project (VS Code IntelliSense + module resolution)
-    "compilerOptions": {
-        "target": "ES2022",                       // language level
-        "module": "commonjs",                     // Node.js commonjs modules
-        "moduleResolution": "node",
-        "allowSyntheticDefaultImports": true,
-        "forceConsistentCasingInFileNames": true, // Regard file names as case-sensitive
-        "baseUrl": ".",                           // project root for non-relative imports
-        "paths": {
-            "@/ *": ["src/*"]                     // alias '@/' to 'src/' directory
-        },
-        "checkJs": true,                          // enable type checking in JS files (optional)
+  // jsconfig.json for a Node.js JavaScript project (VS Code IntelliSense + module resolution)
+  "compilerOptions": {
+    "target": "ES2022", // language level
+    "module": "commonjs", // Node.js commonjs modules
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true, // Regard file names as case-sensitive
+    "baseUrl": ".", // project root for non-relative imports
+    "paths": {
+      "@/*": ["src/*"] // alias '@/' to 'src/' directory
     },
-    "include": ["src/**/*"],
-    "exclude": ["node_modules", "dist", "coverage"]
+    "checkJs": true // enable type checking in JS files (optional)
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "coverage"]
 }

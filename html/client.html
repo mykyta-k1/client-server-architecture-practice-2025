@@ -1,0 +1,701 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Testing Client - Resources Manager</title>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.production.min.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 100%);
+        color: #e4e4e7;
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 30px;
+        background: rgba(30, 30, 46, 0.8);
+        border-radius: 12px;
+        margin-bottom: 30px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      }
+
+      .header h1 {
+        font-size: 28px;
+        font-weight: 600;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .logos {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+      }
+
+      .logo {
+        height: 40px;
+        filter: brightness(0.9);
+        transition: filter 0.3s;
+      }
+
+      .logo:hover {
+        filter: brightness(1.1);
+      }
+
+      .main-content {
+        display: grid;
+        grid-template-columns: 400px 1fr;
+        gap: 20px;
+        height: calc(100vh - 180px);
+      }
+
+      .endpoints-panel {
+        background: rgba(30, 30, 46, 0.8);
+        border-radius: 12px;
+        padding: 20px;
+        overflow-y: auto;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      }
+
+      .endpoints-panel h2 {
+        margin-bottom: 20px;
+        color: #a5b4fc;
+        font-size: 18px;
+        font-weight: 600;
+      }
+
+      .endpoint-item {
+        background: rgba(45, 45, 65, 0.6);
+        padding: 15px;
+        margin-bottom: 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        border: 2px solid transparent;
+        transition: all 0.3s;
+      }
+
+      .endpoint-item:hover {
+        background: rgba(55, 55, 75, 0.8);
+        transform: translateX(5px);
+      }
+
+      .endpoint-item.active {
+        border-color: #6366f1;
+        background: rgba(99, 102, 241, 0.15);
+      }
+
+      .method-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 700;
+        margin-right: 10px;
+        letter-spacing: 0.5px;
+      }
+
+      .method-GET {
+        background: #10b981;
+        color: #fff;
+      }
+      .method-POST {
+        background: #3b82f6;
+        color: #fff;
+      }
+      .method-PUT {
+        background: #f59e0b;
+        color: #fff;
+      }
+      .method-PATCH {
+        background: #8b5cf6;
+        color: #fff;
+      }
+      .method-DELETE {
+        background: #ef4444;
+        color: #fff;
+      }
+
+      .endpoint-url {
+        color: #e4e4e7;
+        font-family: 'Courier New', monospace;
+        font-size: 13px;
+        margin-top: 5px;
+      }
+
+      .endpoint-name {
+        color: #94a3b8;
+        font-size: 11px;
+        margin-top: 3px;
+      }
+
+      .request-panel {
+        background: rgba(30, 30, 46, 0.8);
+        border-radius: 12px;
+        padding: 25px;
+        overflow-y: auto;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        display: flex;
+        flex-direction: column;
+      }
+
+      .request-header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 25px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid rgba(100, 100, 130, 0.3);
+      }
+
+      .base-url-input {
+        flex: 1;
+        background: rgba(45, 45, 65, 0.6);
+        border: 1px solid rgba(100, 100, 130, 0.3);
+        padding: 12px 16px;
+        border-radius: 8px;
+        color: #e4e4e7;
+        font-family: 'Courier New', monospace;
+        font-size: 14px;
+      }
+
+      .base-url-input:focus {
+        outline: none;
+        border-color: #6366f1;
+      }
+
+      .form-section {
+        margin-bottom: 25px;
+      }
+
+      .form-section h3 {
+        color: #a5b4fc;
+        font-size: 14px;
+        margin-bottom: 12px;
+        font-weight: 600;
+      }
+
+      .input-group {
+        margin-bottom: 15px;
+      }
+
+      .input-group label {
+        display: block;
+        color: #94a3b8;
+        font-size: 13px;
+        margin-bottom: 6px;
+      }
+
+      .input-group input,
+      .input-group textarea {
+        width: 100%;
+        background: rgba(45, 45, 65, 0.6);
+        border: 1px solid rgba(100, 100, 130, 0.3);
+        padding: 10px 14px;
+        border-radius: 6px;
+        color: #e4e4e7;
+        font-family: 'Courier New', monospace;
+        font-size: 13px;
+      }
+
+      .input-group textarea {
+        min-height: 150px;
+        resize: vertical;
+        font-family: 'Courier New', monospace;
+      }
+
+      .input-group input:focus,
+      .input-group textarea:focus {
+        outline: none;
+        border-color: #6366f1;
+      }
+
+      .required {
+        color: #ef4444;
+        margin-left: 3px;
+      }
+
+      .send-button {
+        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        color: white;
+        border: none;
+        padding: 14px 40px;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        margin-bottom: 25px;
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+      }
+
+      .send-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+      }
+
+      .send-button:active {
+        transform: translateY(0);
+      }
+
+      .send-button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .response-section {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .response-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+      }
+
+      .response-header h3 {
+        color: #a5b4fc;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .status-badge {
+        padding: 6px 14px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .status-success {
+        background: #10b981;
+        color: #fff;
+      }
+
+      .status-error {
+        background: #ef4444;
+        color: #fff;
+      }
+
+      .response-content {
+        background: #1e1e2e;
+        border-radius: 8px;
+        padding: 20px;
+        overflow-x: auto;
+        flex: 1;
+        border: 1px solid rgba(100, 100, 130, 0.3);
+      }
+
+      .response-content pre {
+        margin: 0;
+        font-family: 'Courier New', monospace;
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      .response-content code {
+        background: none !important;
+        padding: 0 !important;
+      }
+
+      .empty-state {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        color: #64748b;
+        font-size: 14px;
+      }
+
+      .loading {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+      }
+
+      .spinner {
+        border: 3px solid rgba(99, 102, 241, 0.3);
+        border-top: 3px solid #6366f1;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: rgba(30, 30, 46, 0.5);
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: rgba(99, 102, 241, 0.5);
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgba(99, 102, 241, 0.7);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useState, useEffect } = React;
+
+      const endpoints = [
+        {
+          name: 'createResource',
+          method: 'POST',
+          url: '/resources',
+          params: [],
+          body: {
+            name: { type: 'string', required: true },
+            type: { type: 'string', required: true },
+            price: { type: 'number', required: false },
+            amount: { type: 'number', required: false },
+          },
+        },
+        {
+          name: 'getResources',
+          method: 'GET',
+          url: '/resources',
+          params: [],
+          body: null,
+        },
+        {
+          name: 'getResource',
+          method: 'GET',
+          url: '/resources/:id',
+          params: [{ name: 'id', type: 'string', required: true }],
+          body: null,
+        },
+        {
+          name: 'updateResource',
+          method: 'PUT',
+          url: '/resources/:id',
+          params: [{ name: 'id', type: 'string', required: true }],
+          body: {
+            name: { type: 'string', required: true },
+            type: { type: 'string', required: true },
+            price: { type: 'number', required: false },
+            amount: { type: 'number', required: false },
+          },
+        },
+        {
+          name: 'patchResource',
+          method: 'PATCH',
+          url: '/resources/:id',
+          params: [{ name: 'id', type: 'string', required: true }],
+          body: {
+            name: { type: 'string', required: false },
+            type: { type: 'string', required: false },
+            price: { type: 'number', required: false },
+            amount: { type: 'number', required: false },
+          },
+        },
+        {
+          name: 'deleteResource',
+          method: 'DELETE',
+          url: '/resources/:id',
+          params: [{ name: 'id', type: 'string', required: true }],
+          body: null,
+        },
+      ];
+
+      function App() {
+        const [selectedEndpoint, setSelectedEndpoint] = useState(null);
+        const [baseUrl, setBaseUrl] = useState('http://localhost/api');
+        const [params, setParams] = useState({});
+        const [bodyData, setBodyData] = useState('');
+        const [response, setResponse] = useState(null);
+        const [loading, setLoading] = useState(false);
+        const [status, setStatus] = useState(null);
+
+        useEffect(() => {
+          if (selectedEndpoint) {
+            const initialParams = {};
+            selectedEndpoint.params.forEach((param) => {
+              initialParams[param.name] = '';
+            });
+            setParams(initialParams);
+
+            if (selectedEndpoint.body) {
+              const initialBody = {};
+              Object.keys(selectedEndpoint.body).forEach((key) => {
+                const field = selectedEndpoint.body[key];
+                if (field.type === 'string') initialBody[key] = '';
+                else if (field.type === 'number') initialBody[key] = 0;
+              });
+              setBodyData(JSON.stringify(initialBody, null, 2));
+            } else {
+              setBodyData('');
+            }
+            setResponse(null);
+            setStatus(null);
+          }
+        }, [selectedEndpoint]);
+
+        const handleSendRequest = async () => {
+          if (!selectedEndpoint) return;
+
+          setLoading(true);
+          setResponse(null);
+          setStatus(null);
+
+          try {
+            let url = selectedEndpoint.url;
+
+            // Replace params in URL
+            Object.keys(params).forEach((key) => {
+              url = url.replace(`:${key}`, params[key]);
+            });
+
+            const fullUrl = baseUrl + url;
+
+            const options = {
+              method: selectedEndpoint.method,
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            };
+
+            if (selectedEndpoint.body && bodyData) {
+              options.body = bodyData;
+            }
+
+            const res = await fetch(fullUrl, options);
+            const data = await res.json();
+
+            setStatus(res.status);
+            setResponse(data);
+          } catch (error) {
+            setStatus('ERROR');
+            setResponse({ error: error.message });
+          } finally {
+            setLoading(false);
+          }
+        };
+
+        useEffect(() => {
+          if (response) {
+            document.querySelectorAll('pre code').forEach((block) => {
+              hljs.highlightElement(block);
+            });
+          }
+        }, [response]);
+
+        return (
+          <div className="container">
+            <div className="header">
+              <h1>
+                <span>⚡</span>
+                API Testing Client
+              </h1>
+              <div className="logos">
+                <svg
+                  className="logo"
+                  role="img"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <title />
+                  <path d="M12 0L1.605 6v12L12 24l10.395-6V6L12 0zm6 16.59c0 .705-.646 1.29-1.529 1.29-.631 0-1.351-.255-1.801-.81l-6-7.141v6.66c0 .721-.57 1.29-1.274 1.29H7.32c-.721 0-1.29-.6-1.29-1.29V7.41c0-.705.63-1.29 1.5-1.29.646 0 1.38.255 1.83.81l5.97 7.141V7.41c0-.721.6-1.29 1.29-1.29h.075c.72 0 1.29.6 1.29 1.29v9.18H18z" />
+                </svg>
+                <img
+                  src="https://fastify.dev/img/logos/fastify-white.svg"
+                  alt="fastify"
+                  className="logo"
+                />
+              </div>
+            </div>
+
+            <div className="main-content">
+              <div className="endpoints-panel">
+                <h2>📋 Endpoints</h2>
+                {endpoints.map((endpoint, index) => (
+                  <div
+                    key={index}
+                    className={`endpoint-item ${selectedEndpoint === endpoint ? 'active' : ''}`}
+                    onClick={() => setSelectedEndpoint(endpoint)}
+                  >
+                    <div>
+                      <span
+                        className={`method-badge method-${endpoint.method}`}
+                      >
+                        {endpoint.method}
+                      </span>
+                      <span className="endpoint-url">{endpoint.url}</span>
+                    </div>
+                    <div className="endpoint-name">{endpoint.name}</div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="request-panel">
+                {selectedEndpoint ? (
+                  <>
+                    <div className="request-header">
+                      <span
+                        className={`method-badge method-${selectedEndpoint.method}`}
+                      >
+                        {selectedEndpoint.method}
+                      </span>
+                      <input
+                        type="text"
+                        className="base-url-input"
+                        value={baseUrl + selectedEndpoint.url}
+                        onChange={(e) => {
+                          const newUrl = e.target.value;
+                          const apiIndex = newUrl.indexOf('/api');
+                          if (apiIndex !== -1) {
+                            setBaseUrl(newUrl.substring(0, apiIndex + 4));
+                          }
+                        }}
+                      />
+                    </div>
+
+                    {selectedEndpoint.params.length > 0 && (
+                      <div className="form-section">
+                        <h3>🔗 URL Parameters</h3>
+                        {selectedEndpoint.params.map((param) => (
+                          <div key={param.name} className="input-group">
+                            <label>
+                              {param.name}
+                              {param.required && (
+                                <span className="required">*</span>
+                              )}
+                            </label>
+                            <input
+                              type="text"
+                              value={params[param.name] || ''}
+                              onChange={(e) =>
+                                setParams({
+                                  ...params,
+                                  [param.name]: e.target.value,
+                                })
+                              }
+                              placeholder={`Enter ${param.name}`}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {selectedEndpoint.body && (
+                      <div className="form-section">
+                        <h3>📝 Request Body (JSON)</h3>
+                        <div className="input-group">
+                          <textarea
+                            value={bodyData}
+                            onChange={(e) => setBodyData(e.target.value)}
+                            placeholder="Enter JSON body"
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    <button
+                      className="send-button"
+                      onClick={handleSendRequest}
+                      disabled={loading}
+                    >
+                      {loading ? 'Sending...' : '🚀 Send Request'}
+                    </button>
+
+                    <div className="response-section">
+                      <div className="response-header">
+                        <h3>📥 Response</h3>
+                        {status && (
+                          <span
+                            className={`status-badge ${status < 400 ? 'status-success' : 'status-error'}`}
+                          >
+                            Status: {status}
+                          </span>
+                        )}
+                      </div>
+                      <div className="response-content">
+                        {loading ? (
+                          <div className="loading">
+                            <div className="spinner"></div>
+                          </div>
+                        ) : response ? (
+                          <pre>
+                            <code className="language-json">
+                              {JSON.stringify(response, null, 2)}
+                            </code>
+                          </pre>
+                        ) : (
+                          <div className="empty-state">
+                            Click "Send Request" to see the response
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <div className="empty-state">
+                    Select an endpoint from the left panel to get started
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+  </body>
+</html>

@@ -1,22 +1,34 @@
-const http = require('node:http');
+const Fastify = require('fastify');
 
-const PORT = process.env.PORT || 3000;
+const { env } = require('./config');
+const { logger } = require('./logger');
+const { patchRouting } = require('./routes');
 
-const server = http.createServer((req, res) => {
-  if (req.method === 'GET' && req.url === '/hello') {
-    res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
+const bootstrapFastify = () => {
+  // Create Fastify instance
+  const fastify = Fastify({
+    loggerInstance: logger,
+    exposeHeadRoutes: false,
+    connectionTimeout: 20_000,
+    disableRequestLogging: true,
+    routerOptions: {
+      ignoreTrailingSlash: true,
+    },
+  });
 
-    res.end('Hello World!');
-    return;
+  patchRouting(fastify);
+
+  if (env.IS_DEV_ENV) {
+    const requestLogger = require('@mgcrea/fastify-request-logger').default;
+
+    fastify.register(requestLogger);
+
+    fastify.ready(() => {
+      console.log(`\nAPI Structure\n${fastify.printRoutes()}`);
+    });
   }
 
-  res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
-  res.end('Not Found');
-});
+  return fastify;
+};
 
-console.log(
-  `Configured to run on port ${PORT}. If using nginx, proxy requests from port 80 to ${PORT}.`
-);
-server.listen(PORT, () => {
-  console.log(`Server is listening on http://localhost:${PORT}`);
-});
+module.exports = { bootstrapFastify };
