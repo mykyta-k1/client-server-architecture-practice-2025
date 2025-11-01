@@ -1,9 +1,9 @@
-const { echoRoute } = require('./echo');
-const { resourcesRouter } = require('./resources');
+const { citiesRouter } = require('./city');
+const { forecastRouter } = require('./forecast');
 
 module.exports.patchRouting = (fastify) => {
-  fastify.register(echoRoute);
-  fastify.register(resourcesRouter);
+  fastify.register(citiesRouter);
+  fastify.register(forecastRouter);
 
   fastify.setNotFoundHandler((request, reply) => {
     reply.status(404).send({ error: 'Not Found' });

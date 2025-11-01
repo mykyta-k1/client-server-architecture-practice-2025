@@ -2,7 +2,6 @@ const Fastify = require('fastify');
 
 const { env } = require('./config');
 const { logger } = require('./logger');
-const { patchRouting } = require('./routes');
 
 const bootstrapFastify = () => {
   // Create Fastify instance
@@ -16,7 +15,8 @@ const bootstrapFastify = () => {
     },
   });
 
-  patchRouting(fastify);
+  // 💥 Race condition, Use Lazy init for routes
+  require('@/routes').patchRouting(fastify);
 
   if (env.IS_DEV_ENV) {
     const requestLogger = require('@mgcrea/fastify-request-logger').default;

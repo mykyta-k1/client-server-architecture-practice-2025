@@ -5,13 +5,20 @@ services:
     image: node-app:latest
     env_file: .env
     networks:
-      - webnet
+      - web_net
+      - postgres_sub_net
+      - mongo_sub_net
+    depends_on:
+      - postgres
+      - mongo
     ports:
       - '9229:9229'
     volumes:
       - ./:/srv/app
     environment:
       - NODE_ENV=development
+      - PG_DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      - MONGO_DATABASE_URL=mongodb://mongo:27017
 
   nginx:
     image: nginx:stable-alpine
@@ -25,8 +32,38 @@ services:
       - ./static:/usr/share/nginx/static:ro
       - ./html:/usr/share/nginx/html:ro
     networks:
-      - webnet
+      - web_net
+
+  postgres:
+    image: postgres:latest
+    networks:
+      - postgres_sub_net
+    ports:
+      - ${DEV_POSTGRES_PORT:-}
+    volumes:
+      - postgres-data:/var/lib/postgresql
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
+  mongo:
+    image: mongo:latest
+    networks:
+      - mongo_sub_net
+    ports:
+      - ${DEV_MONGO_PORT:-}
+    volumes:
+      - mongo-data:/data/db
 
 networks:
-  webnet:
+  web_net:
     driver: bridge
+  mongo_sub_net:
+    driver: bridge
+  postgres_sub_net:
+    driver: bridge
+
+volumes:
+  mongo-data:
+  postgres-data:

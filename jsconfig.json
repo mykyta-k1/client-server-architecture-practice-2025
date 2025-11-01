@@ -4,6 +4,8 @@
     "target": "ES2022", // language level
     "module": "commonjs", // Node.js commonjs modules
     "moduleResolution": "node",
+    "emitDecoratorMetadata": true, // Use metadata in decorators for mapping obj
+    "experimentalDecorators": true, // Use decorators for mapping obj
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true, // Regard file names as case-sensitive
     "baseUrl": ".", // project root for non-relative imports

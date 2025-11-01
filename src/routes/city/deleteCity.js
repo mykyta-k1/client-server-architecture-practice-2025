@@ -1,8 +1,9 @@
-const { resourceRepository } = require('@/repositories/resources');
+const { deleteCity } = require('@/useCases/cityCRUD');
+const { logger } = require('@/logger');
 
 module.exports = {
-  deleteResource: {
-    url: '/resources/:id',
+  deleteCity: {
+    url: '/cities/:id',
     method: 'DELETE',
     schema: {
       params: {
@@ -16,11 +17,13 @@ module.exports = {
     handler: async (request, reply) => {
       try {
         const targetId = request.params.id;
-        const deleted = await resourceRepository.delete(targetId);
-
-        return reply.status(200).send(deleted);
+        const deleted = await deleteCity(targetId);
+        if (!deleted) {
+          return reply.status(404).send({ error: 'City not found' });
+        }
+        return reply.status(204).send(deleted);
       } catch (error) {
-        request.log.error(error);
+        logger.error(error, 'Failed to delete city by id');
         return reply.status(500).send({ error: 'Failed to delete resource' });
       }
     },
