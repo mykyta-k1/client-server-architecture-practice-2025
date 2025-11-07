@@ -13,4 +13,8 @@ module.exports.patchRouting = (fastify) => {
     fastify.log.error(error);
     reply.status(500).send({ error: 'Internal Server Error' });
   });
+
+  fastify.get('/openapi.json', async (request, reply) => {
+    return fastify.swagger();
+  });
 };

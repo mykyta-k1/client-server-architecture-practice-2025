@@ -2,11 +2,17 @@ if (!process.env.APP_ENV_LOADED) {
   require('dotenv').config();
 }
 
+const APP_VERSION =
+  process.env.npm_package_version ||
+  require('../package.json').version ||
+  '0.0.1';
+
 const APP_ENV = process.env.NODE_ENV || 'production';
 
 const env = Object.freeze({
   IS_DEV_ENV: APP_ENV === 'development',
   IS_PROD_ENV: APP_ENV === 'production',
+
   PG_DATABASE_URL:
     process.env.PG_DATABASE_URL ||
     'postgresql://postgres:postgres@localhost:5432/app_db',
@@ -15,9 +21,13 @@ const env = Object.freeze({
     process.env.MONGO_DATABASE_URL || 'mongodb://localhost:27017',
   MONGO_DB_NAME: process.env.MONGO_DB || 'app_db',
 
+  APP_VERSION,
+
   FORECAST_API_KEY: process.env.FORECAST_API_KEY || null,
+
   PORT: Number(process.env.APP_PORT) || 3000,
   HOST: process.env.APP_HOST || '0.0.0.0',
+
   APP_ENV,
 });
 

@@ -1,3 +1,4 @@
+// Babel conf file, indicates the use of the env preset and the decorators plugin in legacy mode.
 {
   "presets": ["@babel/preset-env"],
   "plugins": [["@babel/plugin-proposal-decorators", { "version": "legacy" }]]

@@ -1,9 +1,12 @@
 const Fastify = require('fastify');
+const swagger = require('@fastify/swagger');
 
 const { env } = require('./config');
 const { logger } = require('./logger');
 
-const bootstrapFastify = () => {
+const { openApiConfig, registerSchemas } = require('@/docs/openapi');
+
+const bootstrapFastify = async () => {
   // Create Fastify instance
   const fastify = Fastify({
     loggerInstance: logger,
@@ -14,6 +17,12 @@ const bootstrapFastify = () => {
       ignoreTrailingSlash: true,
     },
   });
+
+  await fastify.register(swagger, {
+    openapi: openApiConfig,
+  });
+
+  registerSchemas(fastify);
 
   // 💥 Race condition, Use Lazy init for routes
   require('@/routes').patchRouting(fastify);

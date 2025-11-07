@@ -8,6 +8,7 @@
     "experimentalDecorators": true, // Use decorators for mapping obj
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true, // Regard file names as case-sensitive
+    "resolveJsonModule": true, // Allow importing JSON files
     "baseUrl": ".", // project root for non-relative imports
     "paths": {
       "@/*": ["src/*"] // alias '@/' to 'src/' directory

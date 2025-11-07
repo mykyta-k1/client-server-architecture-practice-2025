@@ -1,6 +1,5 @@
 const { $db, $schemas } = require('@/adapters/postgres');
 const { eq, ilike, or } = require('drizzle-orm');
-const { CityNotFoundError } = require('@/errors');
 
 class CityRepository {
   async create(cityData) {

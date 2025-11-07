@@ -38,9 +38,15 @@
     "prettier": "3.6.2"
   },
   "dependencies": {
+    "@fastify/auth": "^5.0.3",
+    "@fastify/cookie": "^11.0.2",
+    "@fastify/error": "^4.2.0",
+    "@fastify/request-context": "^6.2.1",
+    "@fastify/swagger": "^9.5.2",
     "@mgcrea/fastify-request-logger": "^1.9.1",
     "@mgcrea/pino-pretty-compact": "^1.4.2",
     "@types/pg": "^8.15.5",
+    "bcrypt": "^6.0.0",
     "class-transformer": "^0.5.1",
     "dotenv": "^17.2.3",
     "drizzle-kit": "^0.31.5",

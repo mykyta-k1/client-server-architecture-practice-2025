@@ -1,5 +1,4 @@
 const { searchCity } = require('@/useCases/searchCity');
-const { CityNotFoundError } = require('@/errors');
 const { logger } = require('@/logger');
 
 module.exports = {

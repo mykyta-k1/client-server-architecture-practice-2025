@@ -141,3 +141,6 @@ vite.config.ts.timestamp-*
 # vscode settings
 .vscode/*
 !.vscode/launch.json
+
+# Hidden files for nginx secrets
+nginx/secrets
