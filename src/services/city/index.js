@@ -1,6 +1,3 @@
-const { cityRepository } = require('@/repositories/city');
+const { cityRepository } = require('@/repositories/cities');
 
-class CityService {
-
-    
-}
+class CityService {}

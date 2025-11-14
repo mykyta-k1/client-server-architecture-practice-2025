@@ -1,4 +1,4 @@
-const { cityRepository } = require('@/repositories/city');
+const { cityRepository } = require('@/repositories/cities');
 
 const createCity = async (cityData) => {
   return await cityRepository.create(cityData);

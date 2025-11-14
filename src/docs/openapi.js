@@ -1,4 +1,4 @@
-const { env } = require('@/config');
+const { env, session } = require('@/config');
 const schemas = require('@/docs/schemas');
 
 /**
@@ -22,4 +22,14 @@ module.exports.openApiConfig = {
     description: 'API documentation for Fastify App',
   },
   servers: [{ url: '/api', description: 'With gateway prefix' }],
+  components: {
+    securitySchemes: {
+      cookieAuth: {
+        type: 'apiKey',
+        in: 'cookie',
+        name: session.COOKIE_NAME,
+        description: 'Signed session cookie set by login',
+      },
+    },
+  },
 };

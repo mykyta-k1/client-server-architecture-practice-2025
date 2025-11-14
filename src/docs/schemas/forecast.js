@@ -42,10 +42,13 @@ module.exports.forecastSchema = {
           },
           weather: {
             type: 'array',
-            properties: {
-              main: { type: 'string' },
-              description: { type: 'string' },
-              icon: { type: 'string' },
+            items: {
+              type: 'object',
+              properties: {
+                main: { type: 'string' },
+                description: { type: 'string' },
+                icon: { type: 'string' },
+              },
             },
           },
           clouds: {

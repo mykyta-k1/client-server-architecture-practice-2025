@@ -1,6 +1,6 @@
 const { WeatherApiAdapter } = require('@/adapters/forecast');
-const { cityRepository } = require('@/repositories/city');
-const { forecastRepository } = require('@/repositories/forecast');
+const { cityRepository } = require('@/repositories/cities');
+const { forecastRepository } = require('@/repositories/forecasts');
 
 const { Forecast } = require('@/domains/forecast');
 

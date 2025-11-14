@@ -14,6 +14,9 @@ module.exports = {
           name: { type: 'string' },
         },
       },
+      response: {
+        404: { type: 'object', properties: { error: { type: 'string' } } },
+      },
     },
     handler: async (request, reply) => {
       try {

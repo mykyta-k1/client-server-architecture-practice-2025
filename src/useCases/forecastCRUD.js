@@ -1,4 +1,4 @@
-const { forecastRepository } = require('@/repositories/forecast');
+const { forecastRepository } = require('@/repositories/forecasts');
 
 const createForecast = async (forecastData) => {
   return await forecastRepository.create(forecastData);

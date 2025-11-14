@@ -13,6 +13,11 @@ module.exports = {
         },
         required: ['id'],
       },
+      response: {
+        200: { $ref: 'Forecast#' },
+        404: { type: 'object', properties: { error: { type: 'string' } } },
+        500: { type: 'object', properties: { error: { type: 'string' } } },
+      },
     },
     handler: async (request, reply) => {
       try {
