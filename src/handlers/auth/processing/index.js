@@ -32,7 +32,7 @@ module.exports.authPipeFactory = (config = {}) => {
             method: 'session',
           });
 
-          return;
+          
         }
       } catch (error) {
         request.log.error(error, 'Error while processing the session cookie');

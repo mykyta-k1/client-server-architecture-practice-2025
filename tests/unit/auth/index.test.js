@@ -95,6 +95,7 @@ describe('Auth service — good cases', () => {
     // @ts-ignore - mocked data
     const user = await authService.authenticate(userRecord, 'secret');
 
+    // @ts-ignore - mocked data
     assert.strictEqual(user.passwordHash, null);
     assert.strictEqual(user.id, uuid);
     assert.strictEqual(user.username, userRecord.username);
@@ -130,6 +131,7 @@ describe('Auth service — good cases', () => {
         deviceInfo
       );
 
+      // @ts-ignore - mocked data
       assert.strictEqual(user, authUser);
       assert.strictEqual(session.userId, authUser.id);
       assert.strictEqual(session.ipAddress, deviceInfo.ipAddress);
@@ -160,6 +162,7 @@ describe('Auth service — good cases', () => {
       // @ts-ignore - mocked data
       const registeredUser = await authService.register(userRecord);
 
+      // @ts-ignore - mocked data
       assert.strictEqual(registeredUser.username, userRecord.username);
       assert.strictEqual(registeredUser.email, userRecord.email);
       assert.strictEqual(registeredUser.isPrivileged, false);
@@ -204,6 +207,7 @@ describe('Auth service — good cases', () => {
         deviceInfo
       );
 
+      // @ts-ignore - mocked data
       assert.strictEqual(user.id, userRecord.id);
       assert.strictEqual(session.userId, userRecord.id);
       assert.strictEqual(session.fp, 'fp-2');
@@ -228,6 +232,7 @@ describe('Auth service — good cases', () => {
 
     const safeUser = authService.hideSensitiveData(userRecord);
 
+    // @ts-ignore - mocked data
     assert.strictEqual(safeUser.passwordHash, undefined);
     assert.strictEqual(safeUser.id, userRecord.id);
     assert.strictEqual(safeUser.username, userRecord.username);

@@ -1,9 +1,40 @@
 const neostandard = require('neostandard');
 const { resolveIgnoresFromGitignore } = neostandard;
+const babelParser = require('@babel/eslint-parser');
+const importPlugin = require('eslint-plugin-import');
 
-// From ESLint v9.0.0, the default configuration file is now eslint.config.js.
-module.exports = neostandard({
-  noStyle: true, // Disable style rules to avoid conflicts with Prettier (default: false)
-  semi: true, // Enable semicolons to avoid conflicts with Prettier (default: false)
-  ignores: resolveIgnoresFromGitignore(), // Ignore node_modules directory (default: []), replacement for .eslintignore
+// Get base conf from neostandard
+const neostandardConfig = neostandard({
+  noStyle: true,
+  semi: true,
+  ignores: resolveIgnoresFromGitignore(),
 });
+
+module.exports = [
+  ...neostandardConfig, // Unpack base conf
+  {
+    // Custom settings
+    files: ['**/*.js'],
+    languageOptions: {
+      parser: babelParser,
+      parserOptions: {
+        requireConfigFile: true,
+        sourceType: 'commonjs',
+      },
+      globals: {
+        httpError: 'readonly',
+      },
+    },
+    plugins: {
+      import: importPlugin,
+    },
+    settings: {
+      'import/resolver': {
+        alias: {
+          map: [['@', './src']],
+          extensions: ['.js'],
+        },
+      },
+    },
+  },
+];
