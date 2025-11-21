@@ -4,6 +4,9 @@
   "description": "",
   "main": "./src/server.js",
   "scripts": {
+    "test": "node --test --require ./tests/setup.js",
+    "test:load": "node ./tests/load",
+    "test:watch": "node --test --watch --require ./tests/setup.js",
     "start": "node ./src/server.js",
     "dev": "nodemon --exec babel-node --inspect=0.0.0.0:9229 ./src/server.js",
     "lint": "eslint ./src --fix",
