@@ -11,10 +11,11 @@
     "resolveJsonModule": true, // Allow importing JSON files
     "baseUrl": ".", // project root for non-relative imports
     "paths": {
-      "@/*": ["src/*"] // alias '@/' to 'src/' directory
+      "@/*": ["src/*"], // alias '@/' to 'src/' directory
+      "@": ["src"]
     },
     "checkJs": true // enable type checking in JS files (optional)
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "tests/**/*", "scripts/**/*", "index.js"],
   "exclude": ["node_modules", "dist", "coverage"]
 }

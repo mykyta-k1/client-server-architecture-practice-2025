@@ -1,7 +1,6 @@
 const { executeRegistration } = require('@/useCases/auth/register');
 const { setSessionCookie } = require('@/handlers/auth/sessionCookie');
 const { resolveClientIP } = require('@/handlers/auth/processing/utils');
-const { logger } = require('@/logger');
 
 /**
  * @description Route to create new user with subsequent auth.
