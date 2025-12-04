@@ -1,11 +1,13 @@
 const { authRouter } = require('./auth');
 const { citiesRouter } = require('./city');
 const { forecastRouter } = require('./forecast');
+const { healthCheck } = require('./healthCheck');
 
 module.exports.patchRouting = (fastify) => {
   fastify.register(authRouter);
   fastify.register(citiesRouter);
   fastify.register(forecastRouter);
+  fastify.register(healthCheck);
 
   // fastify.setNotFoundHandler((request, reply) => {
   //   reply.status(404).send({ error: 'Not Found' });

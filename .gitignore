@@ -144,3 +144,7 @@ vite.config.ts.timestamp-*
 
 # Hidden files for nginx secrets
 nginx/secrets
+
+# pnpm
+pnpm-lock.yaml
+pnpm-workspace.yaml

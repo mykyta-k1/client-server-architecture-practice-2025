@@ -88,7 +88,6 @@ webpack.config*
 rollup.config*
 vite.config*
 tsconfig.json
-.babelrc*
 .editorconfig
 
 # Build directories (if they are not needed in production)
